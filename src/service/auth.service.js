@@ -9,6 +9,24 @@ class AuthService {
         return { token }
     }
 
+    Verify_Token(token){
+        return jwt.verify(token, process.env.SECRET_KEY, (err, data) => {
+            if (err){
+                const message = {
+                    message: 'Token Invalido',
+                    status: false
+                }
+                return message
+            } else {
+                const message = {
+                    message: 'Token Valido',
+                    data
+                }
+                return message
+            }
+        })
+    }
+
 }
 
 export default AuthService
