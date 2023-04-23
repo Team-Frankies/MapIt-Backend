@@ -29,8 +29,6 @@ class AuthService {
 
     Verify_Account(token_account, usr_account){
         const Token_Account = { ...token_account.account }
-        console.log(Token_Account)
-        console.log(usr_account)
         if (Token_Account.Email !== usr_account.Email){
             const message = {
                 message: 'Correo Invalido',
