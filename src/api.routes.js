@@ -1,15 +1,13 @@
 // Node Modules
-import express from 'express'
+import express from 'express';
 
 // Routes
-import auth from './routes/auth.routes.js'
+import authRoutes from './routes/auth.routes.js';
 
-function api_router(app){
-    const router = express.Router()
-    app.use('/api/v1', router)
-
-    router.use('/auth-service', auth)
-
+function apiRouter(app) {
+  const router = express.Router();
+  app.use('/api/v1', router);
+  router.use('/auth', authRoutes);
 }
 
-export default api_router
+export default apiRouter;
