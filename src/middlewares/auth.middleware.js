@@ -1,38 +1,27 @@
-function verify_token(req, res, next){
-    const bearer_header = req.headers['authorization']
-    if (typeof bearer_header !== 'undefined'){
-        const bearer = bearer_header.split(" ")
-        const bearer_token = bearer[1]
-        req.token = bearer_token
-        next()
+import HttpStatus from 'http-status-codes';
+import * as authService from '../services/auth.service.js';
+
+export function verifyToken(req, res, next) {
+  const headers = req.headers;
+
+  if (headers && headers.authorization && headers.authorization.split(' ')[0] === 'Bearer') {
+    const token = headers.authorization.split(' ')[1];
+    const verifiedToken = authService.verifyToken(token);
+    if (!verifiedToken.uuid) {
+      invalidToken(req, res);
     } else {
-        const message = {
-            message: 'Debe ingresar un Token'
-        }
-        res.status(403).json(message)
+      req.isLogged = true;
+      next();
     }
+  } else {
+    invalidToken(req, res);
+  }
 }
 
-function check_obeject(req, res, next){
-    const account = req.body
-    if (Object.keys(account).length === 0 ){
-        const message = {
-            message: 'Debe proporcionar un objeto'
-        }
-        res.status(400).json(message)
-    } else if (Object.keys(account).length > 4){
-        const message = {
-            message: 'Solo se permite: Email, Nombre, Apellido y Password'
-        }
-        res.status(400).json(message)
-    } else if (Object.keys(account).length < 4){
-        const message = {
-            message: 'Faltan parametros en el objeto (Email, Nombre, Apellido y Password)'
-        }
-        res.status(400).json(message)
-    } else {
-        next()
-    }
+function invalidToken(req, res) {
+  req.isLogged = false;
+  const message = {
+    message: 'El token ingresado es inválido o su ciclo de cida a expirado',
+  };
+  res.status(HttpStatus.UNAUTHORIZED).json(message);
 }
-
-export { verify_token, check_obeject } 
