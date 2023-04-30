@@ -10,7 +10,8 @@ function api_router(app){
     app.use('/api/v1', router)
 
     router.use('/auth-service', auth)
-    router.use('/places/:place_id', placeId)
+    router.use('/places', placeId)
+    // router.use('/places', placeId)
 
 }
 

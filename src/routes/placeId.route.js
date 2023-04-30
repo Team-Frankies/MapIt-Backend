@@ -1,9 +1,9 @@
 // Node Modules
 import express from "express";
-import { getPlaceId } from "../controller/placeId";
+import { getPlaceId } from "../controllers/placeId.js";
 
 const router = express.Router();
 
-router.route("/").get(getPlaceId);
+router.route("/:place_id").get(getPlaceId);
 
 export default router;
