@@ -1,27 +1,28 @@
 // Node odules
-import express, { application, json } from 'express'
-import morgan from 'morgan'
-import dotenv from 'dotenv'
-dotenv.config()
+import express from 'express';
+import morgan from 'morgan';
+import dotenv from 'dotenv';
+import * as mongodb from './db.js';
+dotenv.config();
 
 // Import API
-import api_router from './api.routes.js'
+import apiRouter from './api.routes.js';
 
 // Initialization
-const app = express()
+const app = express();
 
 // Settings
-const port = process.env.SERVER_PORT
+const port = process.env.SERVER_PORT || 3000;
 
 // Middlewares
-app.use(morgan('dev'))
-app.use(express.urlencoded({ extended: false }))
-app.use(express.json())
-
+app.use(morgan('dev'));
+app.use(express.urlencoded({extended: true}));
+app.use(express.json());
+await mongodb.connectDB();
 // Routes
-api_router(app)
+apiRouter(app);
 
 // Start Server
 app.listen(port, () => {
-    console.log(`Server on port ${port}`)
-})
+  console.log(`Server on port ${port}`);
+});
