@@ -217,6 +217,10 @@ $RECYCLE.BIN/
 *.lnk
 
 # VS Custom
-.vscode/
+.vscode
+
+#Docker compose files
+docker-compose.yml
+data
 
 # End of https://www.toptal.com/developers/gitignore/api/node,macos,linux,windows
