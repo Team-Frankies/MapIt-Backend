@@ -6,6 +6,9 @@ services:
     build: .
     ports:
       - "3000:3000"
+    environment:
+      - DOCKER_DB_URI=${DOCKER_DB_URI}
+      - SECRET_KEY=${SECRET_KEY}
     links:
       - helpmongo
     volumes:
