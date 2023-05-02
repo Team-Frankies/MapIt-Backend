@@ -21,7 +21,8 @@
     "jsonwebtoken": "^9.0.0",
     "mongoose": "^7.0.5",
     "mongoose-unique-validator": "^4.0.0",
-    "morgan": "^1.10.0"
+    "morgan": "^1.10.0",
+    "querystring": "^0.2.1"
   },
   "devDependencies": {
     "nodemon": "^2.0.22"

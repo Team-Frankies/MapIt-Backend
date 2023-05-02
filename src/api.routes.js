@@ -3,7 +3,10 @@ import express from 'express';
 
 // Routes
 import authRoutes from './routes/auth.routes.js';
-import placeId from './routes/placeId.route.js'
+import placeId from './routes/placeId.route.js';
+import maps from './routes/maps.routes.js';
+
+
 
 function apiRouter(app) {
   const router = express.Router();
@@ -11,6 +14,8 @@ function apiRouter(app) {
   
   router.use('/auth', authRoutes);
   router.use('/places', placeId)
+  router.use('/maps', maps);
 }
 
 export default apiRouter;
+
