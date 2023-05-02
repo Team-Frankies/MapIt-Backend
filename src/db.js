@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 
-const mongoDB = process.env.MONGODB_URL || 'mongodb://127.0.0.1/develop';
+const mongoDB = process.env.MONGODB_URL || 'mongodb://user:password@mongo:27017/develop?authSource=admin';
+// mongodb://127.0.0.1/develop
 
 export async function connectDB() {
   try {
