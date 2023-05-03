@@ -39,12 +39,12 @@ const getComment = async(req,res) => {
 const postComment = async (req,res) => {
   try{
     const {writenBy, content, stars} = req.body;
-
-    const currentUser = await User.findById(writenBy);
-
+    
     if(!writenBy || !content || !stars){
       return res.status(400).json({message: "Missing fields"});
     }
+
+    const currentUser = await User.findById(writenBy);
 
     const comment = new Comment({
       writenBy,
