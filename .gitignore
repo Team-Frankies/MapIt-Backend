@@ -219,4 +219,7 @@ $RECYCLE.BIN/
 # VS Custom
 .vscode/
 
+# Docker
+data
+
 # End of https://www.toptal.com/developers/gitignore/api/node,macos,linux,windows
