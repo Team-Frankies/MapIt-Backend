@@ -14,7 +14,7 @@ function apiRouter(app) {
   app.use('/api/v1', router);
   
   router.use('/auth', authRoutes);
-  router.use(commentRouter);
+  router.use(commentRouter); 
   router.use('/places', placeId)
   router.use('/maps', maps);
 }
