@@ -3,14 +3,14 @@ import { getAllComments, getComment, postComment, updateComment, deleteComment} 
 
 const commentRouter = Router();
 
-commentRouter.get("/get-all-comments", getAllComments);
+commentRouter.get("/comments", getAllComments);
 
-commentRouter.post("/create-comment", postComment);
+commentRouter.post("/comments", postComment);
 
-commentRouter.get("/get-comment/:id", getComment);
+commentRouter.get("/comments/:id", getComment);
 
-commentRouter.put("/update-comment/:id", updateComment);
+commentRouter.put("/comments/:id", updateComment);
 
-commentRouter.delete("/delete-comment/:id", deleteComment);
+commentRouter.delete("/comments/:id", deleteComment);
 
 export default commentRouter;

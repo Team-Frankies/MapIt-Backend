@@ -9,12 +9,12 @@ const getAllComments = async(_,res) => {
       lastname: 1,
     });
 
-    if(comments.length === 0) res.status(404).json({message: "No comments found"});
+    if(comments.length === 0)  return res.status(404).json({message: "No comments found"});
     
     return res.status(200).json({message:"Messages Found", comments: [...comments]});
   
   }catch(err){
-    res.status(500).json({message: err.message});
+    return res.status(500).json({message: err.message});
   }
 }
 
@@ -28,7 +28,7 @@ const getComment = async(req,res) => {
       lastname: 1,
     });
 
-    if(!comment) res.status(404).json({message: "Comment not found"});
+    if(!comment) return res.status(404).json({message: "Comment not found"});
 
     return res.json({message: "Message Found", comments: comment});
   }catch(err){
@@ -38,7 +38,7 @@ const getComment = async(req,res) => {
 
 const postComment = async (req,res) => {
   try{
-    const {writenBy, content, stars} = req.body;
+    const {writenBy, placeId ,content, stars} = req.body;
     
     if(!writenBy || !content || !stars){
       return res.status(400).json({message: "Missing fields"});
@@ -49,7 +49,9 @@ const postComment = async (req,res) => {
     const comment = new Comment({
       writenBy,
       content,
-      stars,});
+      stars,
+      placeId,
+    });
 
     const newComment = await comment.save();
 
