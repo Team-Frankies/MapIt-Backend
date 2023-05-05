@@ -217,7 +217,11 @@ $RECYCLE.BIN/
 *.lnk
 
 # VS Custom
-.vscode/
+.vscode
+
+#Docker compose files
+docker-compose.yml
+data
 
 # Docker
 data

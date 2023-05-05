@@ -10,7 +10,7 @@ export const getPlaceId = async (req, res, next) => {
   try {
     // const placeId = "ChIJN1t_tDeuEmsRUsoyG83frY4";
     const placeId = req.params.place_id;
-    const keyId = process.env.GOOGLE_API_KEY;
+    const keyId = process.env.GOOGLE_MAPS_API_KEY;
     const { data } = await axios.get(
       `https://maps.googleapis.com/maps/api/place/details/json?fields=name%2Crating%2Cformatted_address%2Cwheelchair_accessible_entrance&place_id=${placeId}&key=${keyId}`
     );
