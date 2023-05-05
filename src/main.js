@@ -1,7 +1,8 @@
-// Node odules
+// Node modules
 import express from 'express';
 import morgan from 'morgan';
 import dotenv from 'dotenv';
+
 import * as mongodb from './db.js';
 dotenv.config();
 
@@ -19,9 +20,12 @@ const port = process.env.SERVER_PORT || 3000;
 app.use(morgan('dev'));
 app.use(express.urlencoded({extended: true}));
 app.use(express.json());
+
 await mongodb.connectDB();
+
 // Routes
 apiRouter(app);
+
 
 // Start Server
 app.listen(port, () => {
