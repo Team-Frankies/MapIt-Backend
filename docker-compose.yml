@@ -14,12 +14,35 @@ services:
     volumes:
       - .:/home/app
       - /home/app/node_modules
+    networks:
+      - MONGO
+
   helpmongo:
     container_name: mongo
     image: mongo
     ports:
-      - "27017:27017"
+      - "0.0.0.0:27017:27017"
     environment:
       - MONGO_INITDB_ROOT_USERNAME=user
       - MONGO_INITDB_ROOT_PASSWORD=password
+    networks:
+      - MONGO
 
+  mongo-express:
+    image: mongo-express:latest
+    container_name: mongo-express
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: user
+      ME_CONFIG_MONGODB_ADMINPASSWORD: password
+      ME_CONFIG_MONGODB_SERVER: mongo
+      ME_CONFIG_MONGODB_PORT: "27017"
+    ports:
+      - "0.0.0.0:8081:8081"
+    networks:
+      - MONGO
+    depends_on:
+      - helpmongo
+
+networks:
+  MONGO:
+    name: MONGO

@@ -3,8 +3,17 @@ import jwt from 'jsonwebtoken';
 import HttpStatus from 'http-status-codes';
 import User from '../models/user.model.js';
 
-export function createUser(user) {
-  return new User(user);
+export async function createUser(user) {
+  const {email} = user;
+  try {
+    const userDB = await User.findOne({email});
+    if (!userDB) {
+      const newUser = await new User(user);
+      return newUser;
+    }
+  } catch (error) {
+    return error;
+  }
 }
 
 export async function signIn(req, res) {

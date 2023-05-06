@@ -2,13 +2,13 @@
 import express from 'express';
 import morgan from 'morgan';
 import dotenv from 'dotenv';
+import cors from 'cors';
 
 import * as mongodb from './db.js';
 dotenv.config();
 
 // Import API
 import apiRouter from './api.routes.js';
-
 
 // Initialization
 const app = express();
@@ -20,12 +20,12 @@ const port = process.env.SERVER_PORT || 3000;
 app.use(morgan('dev'));
 app.use(express.urlencoded({extended: true}));
 app.use(express.json());
+app.use(cors());
 
 await mongodb.connectDB();
 
 // Routes
 apiRouter(app);
-
 
 // Start Server
 app.listen(port, () => {

@@ -3,7 +3,7 @@ import * as userService from '../services/auth.service.js';
 
 export async function createUser(req, res) {
   try {
-    const newUser = userService.createUser(req.body);
+    const newUser = await userService.createUser(req.body);
     const savedUser = await newUser.save();
     const token = await userService.getToken(savedUser._id);
     return res.status(HttpStatus.CREATED).json({token});
