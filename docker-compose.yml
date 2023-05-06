@@ -23,8 +23,8 @@ services:
     ports:
       - "0.0.0.0:27017:27017"
     environment:
-      - MONGO_INITDB_ROOT_USERNAME=user
-      - MONGO_INITDB_ROOT_PASSWORD=password
+      - MONGO_INITDB_ROOT_USERNAME=${USER_MONGO}
+      - MONGO_INITDB_ROOT_PASSWORD=${PASS_MONGO}
     networks:
       - MONGO
 
@@ -32,8 +32,8 @@ services:
     image: mongo-express:latest
     container_name: mongo-express
     environment:
-      ME_CONFIG_MONGODB_ADMINUSERNAME: user
-      ME_CONFIG_MONGODB_ADMINPASSWORD: password
+      ME_CONFIG_MONGODB_ADMINUSERNAME: ${USER_MONGO}
+      ME_CONFIG_MONGODB_ADMINPASSWORD: ${PASS_MONGO}
       ME_CONFIG_MONGODB_SERVER: mongo
       ME_CONFIG_MONGODB_PORT: "27017"
     ports:
