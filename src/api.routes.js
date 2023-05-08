@@ -1,11 +1,15 @@
+// Node Modules
 import express from 'express';
 
+// Routes
 import authRoutes from './routes/auth.routes.js';
 import commentRouter from './routes/comment.routes.js';
 import placeId from './routes/placeId.route.js';
 import maps from './routes/maps.routes.js';
 
-function api_router(app) {
+
+
+function apiRouter(app) {
   const router = express.Router();
   app.use('/api/v1', router);
   
@@ -15,5 +19,4 @@ function api_router(app) {
   router.use('/maps', maps);
 }
 
-export default api_router;
-
+export default apiRouter;
