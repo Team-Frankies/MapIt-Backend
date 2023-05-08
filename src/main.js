@@ -8,7 +8,7 @@ import * as mongodb from './db.js';
 dotenv.config();
 
 // Import API
-import apiRouter from './api.routes.js';
+import api_router from './api.routes.js';
 
 // Initialization
 const app = express();
@@ -25,7 +25,7 @@ app.use(cors());
 await mongodb.connectDB();
 
 // Routes
-apiRouter(app);
+api_router(app);
 
 // Start Server
 app.listen(port, () => {
