@@ -12,7 +12,7 @@ const UserSchema = new Schema(
       required: [true, "can't be blank"],
       match: [/\S+@\S+\.\S+/, 'is invalid'],
       index: true,
-      unique: [true, "Email exist"],
+      unique: [true, 'Email exist'],
     },
     firstname: {
       type: String,
@@ -36,9 +36,9 @@ const UserSchema = new Schema(
     comments: [
       {
         type: Schema.Types.ObjectId,
-        ref: 'Comment'
-      }
-    ]
+        ref: 'Comment',
+      },
+    ],
   },
   {timestamps: true}
 );

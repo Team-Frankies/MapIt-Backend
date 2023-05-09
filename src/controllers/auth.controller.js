@@ -1,7 +1,6 @@
 import HttpStatus from 'http-status-codes';
 import * as userService from '../services/auth.service.js';
 
-
 export async function createUser(req, res) {
   try {
     const newUser = await userService.createUser(req.body);
