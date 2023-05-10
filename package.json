@@ -4,7 +4,8 @@
   "description": "",
   "main": "src/main.js",
   "scripts": {
-    "dev": "nodemon src/main.js"
+    "dev": "nodemon src/main.js",
+    "lint:fix": "eslint --fix src/**/*.js"
   },
   "keywords": [],
   "author": "",
@@ -12,8 +13,8 @@
   "type": "module",
   "dependencies": {
     "argon2": "^0.30.3",
-    "cors": "^2.8.5",
     "axios": "^1.4.0",
+    "cors": "^2.8.5",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "express-validator": "^7.0.1",
@@ -25,6 +26,11 @@
     "querystring": "^0.2.1"
   },
   "devDependencies": {
+    "eslint": "^8.40.0",
+    "eslint-config-standard": "^17.0.0",
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-n": "^15.7.0",
+    "eslint-plugin-promise": "^6.1.1",
     "nodemon": "^2.0.22"
   }
 }

@@ -1,16 +1,16 @@
-import { Router } from "express";
-import { getAllComments, getComment, postComment, updateComment, deleteComment} from "../controllers/comment.controller.js";
+import { Router } from 'express'
+import { getAllComments, getComment, postComment, updateComment, deleteComment } from '../controllers/comment.controller.js'
 
-const commentRouter = Router();
+const commentRouter = Router()
 
-commentRouter.get("/comments", getAllComments);
+commentRouter.get('/comments', getAllComments)
 
-commentRouter.post("/comments", postComment);
+commentRouter.post('/comments', postComment)
 
-commentRouter.get("/comments/:id", getComment);
+commentRouter.get('/comments/:id', getComment)
 
-commentRouter.put("/comments/:id", updateComment);
+commentRouter.put('/comments/:id', updateComment)
 
-commentRouter.delete("/comments/:id", deleteComment);
+commentRouter.delete('/comments/:id', deleteComment)
 
-export default commentRouter;
+export default commentRouter
