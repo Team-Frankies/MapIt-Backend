@@ -99,7 +99,7 @@ export function jwtVerifyToken (token) {
   }
 }
 
-export function Verify_Token (token) {
+export function authVerifyToken (token) {
   return jwt.verify(token, process.env.SECRET_KEY, (err, account) => {
     if (err) {
       const message = {
@@ -117,9 +117,9 @@ export function Verify_Token (token) {
   })
 }
 
-export function Verify_Account (token_account, usr_account) {
-  const Token_Account = { ...token_account.account }
-  if (Token_Account.Email !== usr_account.Email) {
+export function verifyAccount (token, usr) {
+  const tokenAccount = { ...token.account }
+  if (tokenAccount.Email !== usr.Email) {
     const message = {
       message: 'Correo Invalido',
       status: false
