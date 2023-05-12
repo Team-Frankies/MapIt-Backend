@@ -13,7 +13,7 @@ router
   .put('/user/:id', authMiddleware.verifyToken, authController.updateUser)
 
 router.get('/test-protected', authMiddleware.verifyToken, (req, res) => {
-  return res.send('Tiene acceso a la ruta');
-});
+  return res.send('Has access to protected route')
+})
 
 export default router
