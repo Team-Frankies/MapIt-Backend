@@ -19,9 +19,7 @@ router.post('/location/coords', async (req, res) => {
     key: process.env.GOOGLE_MAPS_API_KEY
   }
 
-  const url = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?${querystring.stringify(
-    queryParams
-  )}`
+  const url = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?${querystring.stringify(queryParams)}`
 
   try {
     const response = await axios.get(url)
@@ -45,9 +43,7 @@ router.post('/location/search', async (req, res) => {
       address,
       key: process.env.GOOGLE_MAPS_API_KEY
     }
-    const url = `https://maps.googleapis.com/maps/api/geocode/json?${querystring.stringify(
-      queryParams
-    )}`
+    const url = `https://maps.googleapis.com/maps/api/geocode/json?${querystring.stringify(queryParams)}`
     const response = await axios.get(url)
     return res.json(
       response.data.results?.map((i) => ({
@@ -74,9 +70,7 @@ router.post('/embed/coords', async (req, res) => {
       q: `${lat},${lng}`,
       key: process.env.GOOGLE_MAPS_API_KEY
     }
-    const url = `https://www.google.com/maps/embed/v1/place?${querystring.stringify(
-      queryParams
-    )}`
+    const url = `https://www.google.com/maps/embed/v1/place?${querystring.stringify(queryParams)}`
     return res.json(url)
   } catch (error) {
     console.log(error)
@@ -91,9 +85,7 @@ router.post('/embed/search', async (req, res) => {
       q: address,
       key: process.env.GOOGLE_MAPS_API_KEY
     }
-    const url = `https://www.google.com/maps/embed/v1/search?${querystring.stringify(
-      queryParams
-    )}`
+    const url = `https://www.google.com/maps/embed/v1/search?${querystring.stringify(queryParams)}`
     return res.json(url)
   } catch (error) {
     console.log(error)
