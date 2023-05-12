@@ -6,7 +6,7 @@ export function verifyToken (req, res, next) {
 
   if (headers && headers.authorization && headers.authorization.split(' ')[0] === 'Bearer') {
     const token = headers.authorization.split(' ')[1]
-    const verifiedToken = authService.verifyToken(token)
+    const verifiedToken = authService.jwtVerifyToken(token)
     if (!verifiedToken.uuid) {
       invalidToken(req, res)
     } else {

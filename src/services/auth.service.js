@@ -20,17 +20,65 @@ export async function signIn (req, res) {
   const { email, password } = req.body
   try {
     const userDB = await User.findOne({ email })
+    if (!userDB) {
+      return res.status(HttpStatus.FORBIDDEN).json({
+        message: 'Authentication fail. Incorrect email or password.'
+      })
+    }
     const passwordMatch = await userDB.comparePassword(password)
-    if (!userDB || !password || !passwordMatch) {
-      return res
-        .status(HttpStatus.FORBIDDEN)
-        .json({ message: 'Fallo la autentificación. El email o la contraseña son incorrectos.' })
+    if (!password || !passwordMatch) {
+      return res.status(HttpStatus.FORBIDDEN).json({
+        message: 'Authentication fail. Incorrect email or password.'
+      })
     }
     const token = await getToken(userDB._id)
     return token
   } catch (error) {
     return error
   }
+}
+
+export async function signOut (req, res) {
+  try {
+    req.user.tokens = req.user.tokens.filter((token) => {
+      return token.token !== req.token
+    })
+    await req.user.save()
+    res.status(HttpStatus.OK).send()
+  } catch (error) {
+    return error
+  }
+}
+
+export async function userId (req, res) {
+  try {
+    const user = await User.findById(req.params.id)
+    if (!user) {
+      return res.status(HttpStatus.NOT_FOUND).send()
+    }
+    return user
+  } catch (error) {
+    return error
+  }
+}
+
+export async function updateUser (req, res) {
+  if (!req.body) {
+    return res.status(HttpStatus.FORBIDDEN).send('Cannot update user with empty files')
+  }
+  const id = req.params.id
+
+  await User.findByIdAndUpdate(id, req.body, { useFindAndModify: false })
+    .then((data) => {
+      if (!data) {
+        return res.status(HttpStatus.FORBIDDEN).send('User not found')
+      } else {
+        return res.status(HttpStatus.OK).send('User updated successfully')
+      }
+    })
+    .catch((err) => {
+      return res.status(500).send({ message: err.message })
+    })
 }
 
 export async function getToken (uuid) {
@@ -43,7 +91,7 @@ export async function getToken (uuid) {
   )
 }
 
-export function verifyToken (token) {
+export function jwtVerifyToken (token) {
   try {
     return jwt.verify(token, process.env.SECRET_KEY)
   } catch (error) {
@@ -51,17 +99,17 @@ export function verifyToken (token) {
   }
 }
 
-export function Verify_Token (token) {
+export function authVerifyToken (token) {
   return jwt.verify(token, process.env.SECRET_KEY, (err, account) => {
     if (err) {
       const message = {
-        message: 'Token Invalido',
+        message: 'Invalid Token',
         status: false
       }
       return message
     } else {
       const message = {
-        message: 'Token Valido',
+        message: 'Invalid Token',
         account
       }
       return message
@@ -69,17 +117,17 @@ export function Verify_Token (token) {
   })
 }
 
-export function verifyAccount (tokenAccount, usrAccount) {
-  const token = { ...tokenAccount.account }
-  if (token.Email !== usrAccount.Email) {
+export function verifyAccount (token, usr) {
+  const tokenAccount = { ...token.account }
+  if (tokenAccount.Email !== usr.Email) {
     const message = {
-      message: 'Correo Invalido',
+      message: 'Invalid Email',
       status: false
     }
     return message
   } else {
     const message = {
-      message: 'Cuenta ok'
+      message: 'Account Verified'
     }
     return message
   }

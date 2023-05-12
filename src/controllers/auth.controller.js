@@ -16,7 +16,34 @@ export async function signIn (req, res) {
   try {
     const token = await userService.signIn(req, res)
     console.log({ REQ: req.user })
-    return res.status(HttpStatus.OK).json({ token })
+    return res.status(HttpStatus.OK).json({ token }).redirect('/user/:userId')
+  } catch (error) {
+    return res.status(HttpStatus.BAD_REQUEST).send()
+  }
+}
+
+export async function signOut (req, res) {
+  try {
+    await userService.signOut(req, res)
+    return res.status(HttpStatus.OK).json({ message: 'Sesión cerrada' })
+  } catch (error) {
+    return res.status(HttpStatus.BAD_REQUEST).send()
+  }
+}
+
+export async function userId (req, res) {
+  try {
+    const user = await userService.userId(req, res)
+    return res.status(HttpStatus.OK).json({ user })
+  } catch (error) {
+    return res.status(HttpStatus.BAD_REQUEST).send()
+  }
+}
+
+export async function updateUser (req, res) {
+  try {
+    const user = await userService.updateUser(req, res)
+    return res.status(HttpStatus.OK).json({ user })
   } catch (error) {
     return res.status(HttpStatus.BAD_REQUEST).send()
   }

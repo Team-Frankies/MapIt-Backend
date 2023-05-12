@@ -7,8 +7,13 @@ const router = Router()
 
 router.post('/sign-up', authController.createUser)
 router.post('/sign-in', authController.signIn)
+router.post('/sign-out', authController.signOut)
+router
+  .get('/user/:id', authMiddleware.verifyToken, authController.userId)
+  .put('/user/:id', authMiddleware.verifyToken, authController.updateUser)
+
 router.get('/test-protected', authMiddleware.verifyToken, (req, res) => {
-  return res.send('Tiene acceso a la ruta')
-})
+  return res.send('Tiene acceso a la ruta');
+});
 
 export default router

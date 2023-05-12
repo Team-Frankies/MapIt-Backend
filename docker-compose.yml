@@ -6,6 +6,7 @@ services:
     build: .
     ports:
       - "3000:3000"
+      - "9229:9229" # debug
     environment:
       - DOCKER_DB_URI=${DOCKER_DB_URI}
       - SECRET_KEY=${SECRET_KEY}
