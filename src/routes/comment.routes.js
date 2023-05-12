@@ -1,16 +1,23 @@
-import { Router } from "express";
-import { getAllComments, getComment, postComment, updateComment, deleteComment} from "../controllers/comment.controller.js";
+import { Router } from 'express'
+import {
+  getAllComments,
+  getComment,
+  postComment,
+  updateComment,
+  deleteComment
+} from '../controllers/comment.controller.js'
+import { verifyToken as auth } from '../middlewares/auth.middleware.js'
 
-const commentRouter = Router();
+const commentRouter = Router()
 
-commentRouter.get("/comments", getAllComments);
+commentRouter.get('/comments', auth, getAllComments)
 
-commentRouter.post("/comments", postComment);
+commentRouter.post('/comments', auth, postComment)
 
-commentRouter.get("/comments/:id", getComment);
+commentRouter.get('/comments/:id', auth, getComment)
 
-commentRouter.put("/comments/:id", updateComment);
+commentRouter.put('/comments/:id', auth, updateComment)
 
-commentRouter.delete("/comments/:id", deleteComment);
+commentRouter.delete('/comments/:id', auth, deleteComment)
 
-export default commentRouter;
+export default commentRouter

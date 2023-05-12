@@ -218,7 +218,6 @@ $RECYCLE.BIN/
 
 # VS Custom
 .vscode/
-data
 
 # Docker
 data

@@ -1,23 +1,23 @@
-import {Schema, model} from 'mongoose';
+import { Schema, model } from 'mongoose'
 
 const CommentSchema = new Schema({
   writenBy: {
     type: Schema.Types.ObjectId,
-    ref: 'User',
+    ref: 'User'
   },
   placeId: {
     type: String,
-    required: true,
+    required: true
   },
   content: {
     type: String,
-    required: true,
+    required: true
   },
   stars: {
-    type: Number,
-  },
-}, {timestamps: true});
+    type: Number
+  }
+}, { timestamps: true })
 
-const Comment = model('Comment', CommentSchema);
+const Comment = model('Comment', CommentSchema)
 
-export default Comment;
+export default Comment
