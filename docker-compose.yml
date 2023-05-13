@@ -29,21 +29,6 @@ services:
     networks:
       - MONGO
 
-  mongo-express:
-    image: mongo-express:latest
-    container_name: mongo-express
-    environment:
-      ME_CONFIG_MONGODB_ADMINUSERNAME: ${USER_MONGO}
-      ME_CONFIG_MONGODB_ADMINPASSWORD: ${PASS_MONGO}
-      ME_CONFIG_MONGODB_SERVER: mongo
-      ME_CONFIG_MONGODB_PORT: "27017"
-    ports:
-      - "0.0.0.0:8081:8081"
-    networks:
-      - MONGO
-    depends_on:
-      - helpmongo
-
 networks:
   MONGO:
     name: MONGO
