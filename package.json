@@ -5,7 +5,7 @@
   "main": "src/main.js",
   "scripts": {
     "dev": "nodemon src/main.js",
-    "lint:fix": "eslint --fix src/**/*.js",
+    "lint:fix": "eslint --fix --ext .js .",
     "prepare": "husky install"
   },
   "keywords": [],

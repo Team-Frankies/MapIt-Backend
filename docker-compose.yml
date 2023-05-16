@@ -30,7 +30,7 @@ services:
       - MONGO
 
   mongo-express:
-    image: mongo-express:latest
+    image: mongo-express:0.49.0
     container_name: mongo-express
     environment:
       ME_CONFIG_MONGODB_ADMINUSERNAME: ${USER_MONGO}

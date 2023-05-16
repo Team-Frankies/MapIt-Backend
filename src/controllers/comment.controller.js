@@ -35,7 +35,7 @@ const getComment = async (req, res) => {
       firstname: 1,
       lastname: 1
     })
-
+    console.log(comment)
     if (!comment) return res.status(404).json({ message: 'Comment not found' })
 
     return res.json({ message: 'Message Found', comments: comment })
@@ -101,9 +101,26 @@ const deleteComment = async (req, res) => {
   }
 }
 
+const getCommentsRate = async (req, res) => {
+  try {
+    const { placeId } = req.params
+    console.log(placeId)
+    const comments = await Comment.find({ placeId })
+
+    if (!comments || comments.length === 0) return res.status(404).json({ message: 'Comments not found' })
+
+    const commentsRate = (comments.reduce((acc, comment) => acc + comment.stars, 0) / comments.length).toFixed(2)
+
+    return res.status(200).json({ message: 'Comments Found', commentsRate })
+  } catch (error) {
+    return res.status(500).json({ message: error.message })
+  }
+}
+
 export {
   getAllComments,
   getComment,
+  getCommentsRate,
   postComment,
   updateComment,
   deleteComment
