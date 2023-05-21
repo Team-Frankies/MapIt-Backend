@@ -70,10 +70,15 @@ export async function updateUser(req, res) {
   const id = req.params.id
   const { firstname, lastname, password, newpassword } = req.body
 
-  if (!firstname || !lastname || !password) {
+  if (!firstname || !lastname || !password || !newpassword) {
     return res.status(HttpStatus.FORBIDDEN).send('No se puede actualizar un usuario vacio')
   }
-  const hashPassword = await hash(password)
+  const userDB = await User.findById(id)
+  const passwordMatch = await userDB.comparePassword(password)
+  if (!passwordMatch){
+    return res.status(HttpStatus.FORBIDDEN).send('La contraseña no coincide')
+  }
+  const hashPassword = await hash(newpassword)
   const userDetail = { firstname, lastname, password : hashPassword }
 
   await User.findByIdAndUpdate(id, userDetail, { new: true })
