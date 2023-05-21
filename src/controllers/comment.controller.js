@@ -1,15 +1,15 @@
 import Comment from '../models/comment.model.js'
 import User from '../models/user.model.js'
 
-const getAllComments = async (req, res) => {
+const getCommentsByPlace = async (req, res) => {
   try {
     const { page, limit } = req.query
-
+    const { placeId } = req.params
     const pages = parseInt(page) || 1
     const limits = parseInt(limit) || 4
     const skips = (pages - 1) * limits
 
-    const comments = await Comment.find({})
+    const comments = await Comment.find({ placeId })
       .limit(limits)
       .skip(skips)
       .populate('writenBy', {
@@ -117,7 +117,7 @@ const getCommentsRate = async (req, res) => {
 }
 
 export {
-  getAllComments,
+  getCommentsByPlace,
   getComment,
   getCommentsRate,
   postComment,
