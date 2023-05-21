@@ -24,7 +24,9 @@
     "mongoose": "^7.0.5",
     "mongoose-unique-validator": "^4.0.0",
     "morgan": "^1.10.0",
-    "querystring": "^0.2.1"
+    "querystring": "^0.2.1",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^4.6.3"
   },
   "devDependencies": {
     "eslint": "^8.40.0",
