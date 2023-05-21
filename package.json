@@ -6,7 +6,6 @@
   "scripts": {
     "dev": "nodemon src/main.js",
     "lint:fix": "eslint --fix src/**/*.js"
-
   },
   "keywords": [],
   "author": "",

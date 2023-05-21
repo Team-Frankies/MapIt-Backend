@@ -44,16 +44,14 @@ const UserSchema = new Schema(
 )
 // Frontend remove pasaword from response
 UserSchema.methods.toJSON = function () {
- const obj = this.toObject()
+  const obj = this.toObject()
   delete obj.password
   return obj
 }
 
-
 UserSchema.plugin(uniqueValidator, { message: 'is already taken.' })
 
 UserSchema.pre('save', async function (next) {
-  const user = this
   if (!this.isModified('password')) return next()
   this.password = await hash(this.password)
   next()

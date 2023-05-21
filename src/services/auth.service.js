@@ -2,9 +2,9 @@
 import jwt from 'jsonwebtoken'
 import HttpStatus from 'http-status-codes'
 import User from '../models/user.model.js'
-import { hash, verify } from 'argon2'
+import { hash } from 'argon2'
 
-export async function createUser(user) {
+export async function createUser (user) {
   const { email } = user
   try {
     const userDB = await User.findOne({ email })
@@ -17,7 +17,7 @@ export async function createUser(user) {
   }
 }
 
-export async function signIn(req, res) {
+export async function signIn (req, res) {
   const { email, password } = req.body
   try {
     const userDB = await User.findOne({ email })
@@ -39,7 +39,7 @@ export async function signIn(req, res) {
   }
 }
 
-export async function signOut(req, res) {
+export async function signOut (req, res) {
   try {
     req.user.tokens = req.user.tokens.filter((token) => {
       return token.token !== req.token
@@ -51,7 +51,7 @@ export async function signOut(req, res) {
   }
 }
 
-export async function userId(req, res) {
+export async function userId (req, res) {
   try {
     const user = await User.findById(req.params.id)
     if (!user) {
@@ -63,7 +63,7 @@ export async function userId(req, res) {
   }
 }
 
-export async function updateUser(req, res) {
+export async function updateUser (req, res) {
   if (!req.body) {
     return res.status(HttpStatus.FORBIDDEN).send('No se puede actualizar un usuario vacio')
   }
@@ -75,11 +75,11 @@ export async function updateUser(req, res) {
   }
   const userDB = await User.findById(id)
   const passwordMatch = await userDB.comparePassword(password)
-  if (!passwordMatch){
+  if (!passwordMatch) {
     return res.status(HttpStatus.FORBIDDEN).send('La contraseña no coincide')
   }
   const hashPassword = await hash(newpassword)
-  const userDetail = { firstname, lastname, password : hashPassword }
+  const userDetail = { firstname, lastname, password: hashPassword }
 
   await User.findByIdAndUpdate(id, userDetail, { new: true })
     .then((data) => {
@@ -94,7 +94,7 @@ export async function updateUser(req, res) {
     })
 }
 
-export async function getToken(uuid) {
+export async function getToken (uuid) {
   return await jwt.sign(
     {
       uuid,
@@ -104,7 +104,7 @@ export async function getToken(uuid) {
   )
 }
 
-export function jwtVerifyToken(token) {
+export function jwtVerifyToken (token) {
   try {
     return jwt.verify(token, process.env.SECRET_KEY)
   } catch (error) {
@@ -112,7 +112,7 @@ export function jwtVerifyToken(token) {
   }
 }
 
-export function authVerifyToken(token) {
+export function authVerifyToken (token) {
   return jwt.verify(token, process.env.SECRET_KEY, (err, account) => {
     if (err) {
       const message = {
@@ -130,7 +130,7 @@ export function authVerifyToken(token) {
   })
 }
 
-export function verifyAccount(token, usr) {
+export function verifyAccount (token, usr) {
   const tokenAccount = { ...token.account }
   if (tokenAccount.Email !== usr.Email) {
     const message = {
