@@ -17,7 +17,6 @@ const getAllComments = async (req, res) => {
         firstname: 1,
         lastname: 1
       })
-
     if (comments.length === 0) return res.status(404).json({ message: 'No comments found' })
 
     return res.status(200).json({ message: 'Messages Found', comments: [...comments] })
@@ -34,8 +33,8 @@ const getComment = async (req, res) => {
       email: 1,
       firstname: 1,
       lastname: 1
-    })
-    console.log(comment)
+    }).populate('responses')
+
     if (!comment) return res.status(404).json({ message: 'Comment not found' })
 
     return res.json({ message: 'Message Found', comments: comment })

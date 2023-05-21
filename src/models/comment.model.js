@@ -15,7 +15,11 @@ const CommentSchema = new Schema({
   },
   stars: {
     type: Number
-  }
+  },
+  responses: [{
+    type: Schema.Types.ObjectId,
+    ref: 'Response'
+  }]
 }, { timestamps: true })
 
 const Comment = model('Comment', CommentSchema)
