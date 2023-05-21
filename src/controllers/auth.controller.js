@@ -43,6 +43,7 @@ export async function userId (req, res) {
 export async function updateUser (req, res) {
   try {
     const user = await userService.updateUser(req, res)
+    // user.save()
     return res.status(HttpStatus.OK).json({ user })
   } catch (error) {
     return res.status(HttpStatus.BAD_REQUEST).send()

@@ -6,7 +6,6 @@ const Schema = mongoose.Schema
 
 const UserSchema = new Schema(
   {
-    _id: Schema.Types.ObjectId,
     email: {
       type: String,
       lowercase: true,
@@ -43,14 +42,20 @@ const UserSchema = new Schema(
   },
   { timestamps: true }
 )
+// Frontend use id in the response
+UserSchema.methods.toJSON = function () {
+ const obj = this.toObject()
+  delete obj.password
+  return obj
+}
+
 
 UserSchema.plugin(uniqueValidator, { message: 'is already taken.' })
 
 UserSchema.pre('save', async function (next) {
   // TODO: Check if user is changing own password = old password need to match with database hashed password
-  if (!this.isModified('password')) {
-    return next()
-  }
+  const user = this
+  if (!this.isModified('password')) return next()
   this.password = await hash(this.password)
   next()
 })
