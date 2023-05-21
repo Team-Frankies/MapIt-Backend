@@ -3,7 +3,6 @@ import express from 'express'
 import morgan from 'morgan'
 import dotenv from 'dotenv'
 import cors from 'cors'
-import validator from 'express-validator'
 
 // Import API
 import apiRouter from './api.routes.js'
@@ -22,7 +21,6 @@ app.use(morgan('dev'))
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
 app.use(cors())
-app.use(validator())
 
 await mongodb.connectDB()
 
