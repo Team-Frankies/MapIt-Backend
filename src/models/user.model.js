@@ -6,6 +6,7 @@ const Schema = mongoose.Schema
 
 const UserSchema = new Schema(
   {
+    _id: Schema.Types.ObjectId,
     email: {
       type: String,
       lowercase: true,
