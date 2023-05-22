@@ -4,6 +4,7 @@ import express from 'express'
 // Routes
 import authRoutes from './routes/auth.routes.js'
 import commentRouter from './routes/comment.routes.js'
+import responseRouter from './routes/response.routes.js'
 import placeId from './routes/placeId.route.js'
 import maps from './routes/maps.routes.js'
 
@@ -13,6 +14,7 @@ function apiRouter (app) {
 
   router.use('/auth', authRoutes)
   router.use(commentRouter)
+  router.use('/comments', responseRouter)
   router.use('/places', placeId)
   router.use('/maps', maps)
 }

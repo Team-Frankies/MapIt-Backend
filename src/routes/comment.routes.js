@@ -1,6 +1,6 @@
 import { Router } from 'express'
 import {
-  getAllComments,
+  getCommentsByPlace,
   getComment,
   getCommentsRate,
   postComment,
@@ -11,7 +11,7 @@ import { verifyToken as auth } from '../middlewares/auth.middleware.js'
 
 const commentRouter = Router()
 
-commentRouter.get('/comments', auth, getAllComments)
+commentRouter.get('/comments/:placeId', auth, getCommentsByPlace)
 
 commentRouter.get('/comments/:id', auth, getComment)
 
