@@ -21,7 +21,7 @@ export function verifyToken (req, res, next) {
 function invalidToken (req, res) {
   req.isLogged = false
   const message = {
-    message: 'El token ingresado es inválido o su ciclo de cida a expirado'
+    message: 'The token is invalid or it has expired'
   }
   res.status(HttpStatus.UNAUTHORIZED).json(message)
 }

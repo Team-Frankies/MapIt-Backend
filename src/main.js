@@ -8,6 +8,7 @@ import cors from 'cors'
 import apiRouter from './api.routes.js'
 
 import * as mongodb from './db.js'
+
 dotenv.config()
 
 // Initialization

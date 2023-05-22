@@ -1,14 +1,22 @@
 import Comment from '../models/comment.model.js'
 import User from '../models/user.model.js'
 
-const getAllComments = async (_, res) => {
+const getCommentsByPlace = async (req, res) => {
   try {
-    const comments = await Comment.find({}).populate('writenBy', {
-      email: 1,
-      firstname: 1,
-      lastname: 1
-    })
+    const { page, limit } = req.query
+    const { placeId } = req.params
+    const pages = parseInt(page) || 1
+    const limits = parseInt(limit) || 4
+    const skips = (pages - 1) * limits
 
+    const comments = await Comment.find({ placeId })
+      .limit(limits)
+      .skip(skips)
+      .populate('writenBy', {
+        email: 1,
+        firstname: 1,
+        lastname: 1
+      })
     if (comments.length === 0) return res.status(404).json({ message: 'No comments found' })
 
     return res.status(200).json({ message: 'Messages Found', comments: [...comments] })
@@ -25,7 +33,7 @@ const getComment = async (req, res) => {
       email: 1,
       firstname: 1,
       lastname: 1
-    })
+    }).populate('responses')
 
     if (!comment) return res.status(404).json({ message: 'Comment not found' })
 
@@ -92,9 +100,26 @@ const deleteComment = async (req, res) => {
   }
 }
 
+const getCommentsRate = async (req, res) => {
+  try {
+    const { placeId } = req.params
+    console.log(placeId)
+    const comments = await Comment.find({ placeId })
+
+    if (!comments || comments.length === 0) return res.status(404).json({ message: 'Comments not found' })
+
+    const commentsRate = (comments.reduce((acc, comment) => acc + comment.stars, 0) / comments.length).toFixed(2)
+
+    return res.status(200).json({ message: 'Comments Found', commentsRate })
+  } catch (error) {
+    return res.status(500).json({ message: error.message })
+  }
+}
+
 export {
-  getAllComments,
+  getCommentsByPlace,
   getComment,
+  getCommentsRate,
   postComment,
   updateComment,
   deleteComment

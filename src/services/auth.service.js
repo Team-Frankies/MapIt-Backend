@@ -23,13 +23,13 @@ export async function signIn (req, res) {
     const userDB = await User.findOne({ email })
     if (!userDB) {
       return res.status(HttpStatus.FORBIDDEN).json({
-        message: 'Fallo la autentificación. El email o la contraseña son incorrectos.'
+        message: 'Authentication fail. Incorrect email or password.'
       })
     }
     const passwordMatch = await userDB.comparePassword(password)
     if (!password || !passwordMatch) {
       return res.status(HttpStatus.FORBIDDEN).json({
-        message: 'Fallo la autentificación. El email o la contraseña son incorrectos.'
+        message: 'Authentication fail. Incorrect email or password.'
       })
     }
     const token = await getToken(userDB._id)
@@ -65,7 +65,7 @@ export async function userId (req, res) {
 
 export async function updateUser (req, res) {
   if (!req.body) {
-    return res.status(HttpStatus.FORBIDDEN).send('No se puede actualizar un usuario vacio')
+    return res.status(HttpStatus.FORBIDDEN).send('Cannot update user with empty files')
   }
   const id = req.params.id
   const { firstname, lastname, password, newpassword } = req.body
@@ -84,9 +84,9 @@ export async function updateUser (req, res) {
   await User.findByIdAndUpdate(id, userDetail, { new: true })
     .then((data) => {
       if (!data) {
-        return res.status(HttpStatus.FORBIDDEN).send('Usuario no encontrado')
+        return res.status(HttpStatus.FORBIDDEN).send('User not found')
       } else {
-        return res.status(HttpStatus.OK).send('Usuario actualizado')
+        return res.status(HttpStatus.OK).send('User updated successfully')
       }
     })
     .catch((err) => {
@@ -116,13 +116,13 @@ export function authVerifyToken (token) {
   return jwt.verify(token, process.env.SECRET_KEY, (err, account) => {
     if (err) {
       const message = {
-        message: 'Token Invalido',
+        message: 'Invalid Token',
         status: false
       }
       return message
     } else {
       const message = {
-        message: 'Token Valido',
+        message: 'Invalid Token',
         account
       }
       return message
@@ -134,13 +134,13 @@ export function verifyAccount (token, usr) {
   const tokenAccount = { ...token.account }
   if (tokenAccount.Email !== usr.Email) {
     const message = {
-      message: 'Correo Invalido',
+      message: 'Invalid Email',
       status: false
     }
     return message
   } else {
     const message = {
-      message: 'Cuenta ok'
+      message: 'Account Verified'
     }
     return message
   }
