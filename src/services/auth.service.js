@@ -2,6 +2,7 @@
 import jwt from 'jsonwebtoken'
 import HttpStatus from 'http-status-codes'
 import User from '../models/user.model.js'
+import { hash } from 'argon2'
 
 export async function createUser (user) {
   const { email } = user
@@ -67,8 +68,20 @@ export async function updateUser (req, res) {
     return res.status(HttpStatus.FORBIDDEN).send('Cannot update user with empty files')
   }
   const id = req.params.id
+  const { firstname, lastname, password, newpassword } = req.body
 
-  await User.findByIdAndUpdate(id, req.body, { useFindAndModify: false })
+  if (!firstname || !lastname || !password || !newpassword) {
+    return res.status(HttpStatus.FORBIDDEN).send('No se puede actualizar un usuario vacio')
+  }
+  const userDB = await User.findById(id)
+  const passwordMatch = await userDB.comparePassword(password)
+  if (!passwordMatch) {
+    return res.status(HttpStatus.FORBIDDEN).send('La contraseña no coincide')
+  }
+  const hashPassword = await hash(newpassword)
+  const userDetail = { firstname, lastname, password: hashPassword }
+
+  await User.findByIdAndUpdate(id, userDetail, { new: true })
     .then((data) => {
       if (!data) {
         return res.status(HttpStatus.FORBIDDEN).send('User not found')

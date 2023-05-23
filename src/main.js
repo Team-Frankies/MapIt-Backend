@@ -4,10 +4,11 @@ import morgan from 'morgan'
 import dotenv from 'dotenv'
 import cors from 'cors'
 
-import * as mongodb from './db.js'
-
 // Import API
 import apiRouter from './api.routes.js'
+
+import * as mongodb from './db.js'
+
 dotenv.config()
 
 // Initialization
