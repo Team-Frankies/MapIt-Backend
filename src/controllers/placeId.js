@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import axios from 'axios'
 
 /*
@@ -15,14 +16,15 @@ export const getPlaceId = async (req, res, next) => {
     )
     const { formatted_address, name, opening_hours, photos, wheelchair_accessible_entrance, formatted_phone_number, address_components } = data.result
     const { weekday_text } = opening_hours
+
     res.status(200).json({
       data: {
-        formatted_address,
-        address_components,
+        formatAddress: formatted_address,
+        longName: address_components,
         name,
-        formatted_phone_number,
-        weekday_text,
-        wheelchair_accessible_entrance,
+        formattedPhoneNumber: formatted_phone_number,
+        weekday: weekday_text,
+        wheelchairAccesibleEntrance: wheelchair_accessible_entrance,
         photos
       }
     })
