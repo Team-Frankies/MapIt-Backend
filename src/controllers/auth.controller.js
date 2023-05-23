@@ -14,9 +14,9 @@ export async function createUser (req, res) {
 
 export async function signIn (req, res) {
   try {
-    const token = await userService.signIn(req, res)
-    console.log({ REQ: req.user })
-    return res.status(HttpStatus.OK).json({ token }).redirect('/user/:userId')
+    const userToken = await userService.signIn(req, res)
+    const { id, token } = userToken
+    return res.status(HttpStatus.OK).json({ id, token }).redirect('/user/:id')
   } catch (error) {
     return res.status(HttpStatus.BAD_REQUEST).send()
   }

@@ -33,7 +33,11 @@ export async function signIn (req, res) {
       })
     }
     const token = await getToken(userDB._id)
-    return token
+    const userToken = {
+      id: userDB.id,
+      token
+    }
+    return userToken
   } catch (error) {
     return error
   }
