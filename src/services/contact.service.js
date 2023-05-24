@@ -19,3 +19,21 @@ export async function create (data) {
     throw new Error('Internal server error')
   }
 }
+
+export async function getAll () {
+  try {
+    const data = await Contact.find()
+    return data
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export async function getById (id) {
+  try {
+    const data = await Contact.findById(id)
+    return data
+  } catch (error) {
+    console.log(error)
+  }
+}
