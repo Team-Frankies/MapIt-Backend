@@ -3,6 +3,7 @@ import express from 'express'
 import morgan from 'morgan'
 import dotenv from 'dotenv'
 import cors from 'cors'
+import swaggerDocs from '../swagger.js'
 
 import * as mongodb from './db.js'
 
@@ -30,4 +31,5 @@ apiRouter(app)
 // Start Server
 app.listen(port, () => {
   console.log(`Server on port ${port}`)
+  swaggerDocs(app, port)
 })
