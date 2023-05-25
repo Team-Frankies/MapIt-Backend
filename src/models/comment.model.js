@@ -1,20 +1,22 @@
 import { Schema, model } from 'mongoose'
 
 const CommentSchema = new Schema({
-  writenBy: {
+  writtenBy: {
     type: Schema.Types.ObjectId,
-    ref: 'User'
+    ref: 'User',
+    required: true
   },
   placeId: {
     type: String,
     required: true
   },
   content: {
-    type: String,
-    required: true
+    type: String
   },
   stars: {
-    type: Number
+    type: Number,
+    max: 5,
+    min: 0
   },
   responses: [{
     type: Schema.Types.ObjectId,
