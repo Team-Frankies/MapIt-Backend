@@ -51,7 +51,7 @@ const postComment = async (req, res) => {
   try {
     const { writtenBy, placeId, content, stars } = req.body
 
-    if (!writtenBy || !content || !stars) {
+    if (!writtenBy || !placeId) {
       return res.status(400).json({ message: 'Missing fields' })
     }
 
