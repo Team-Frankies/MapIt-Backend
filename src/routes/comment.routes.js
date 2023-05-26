@@ -8,10 +8,12 @@ import {
   deleteComment
 } from '../controllers/comment.controller.js'
 import { verifyToken as auth } from '../middlewares/auth.middleware.js'
+import { paginatedResults } from '../middlewares/paginatedResults.js'
+import Comment from '../models/comment.model.js'
 
 const commentRouter = Router()
 
-commentRouter.get('/comments/:placeId/:userId', auth, getCommentsByPlace)
+commentRouter.get('/comments/:placeId/:userId', auth, paginatedResults(Comment), getCommentsByPlace)
 
 commentRouter.get('/comments/user/:userId/:placeId', auth, getCommentByUserIdAndPlaceId)
 

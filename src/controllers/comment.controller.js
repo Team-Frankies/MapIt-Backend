@@ -3,29 +3,31 @@ import User from '../models/user.model.js'
 
 const getCommentsByPlace = async (req, res) => {
   try {
-    const { page, limit } = req.query
-    const { placeId, userId } = req.params
-    const pages = parseInt(page) || 1
-    const limits = parseInt(limit) || 4
-    const skips = (pages - 1) * limits
-
+    // const { page, limit } = req.query
+    const { userId } = req.params
+    // const pages = parseInt(page) || 1
+    // const limits = parseInt(limit) || 4
+    // const skips = (pages - 1) * limits
     const currentUser = await User.findById(userId)
-    const comments = await Comment.find({ placeId })
-      .limit(limits)
-      .skip(skips)
-      .populate('writtenBy', {
-        email: 1,
-        firstname: 1,
-        lastname: 1
-      }).populate('responses', {
-        commentId: 0
-      })
+    // const comments = await Comment.find({ placeId })
+    //   .limit(limits)
+    //   .skip(skips)
+    //   .populate('writtenBy', {
+    //     email: 1,
+    //     firstname: 1,
+    //     lastname: 1
+    //   }).populate('responses', {
+    //     commentId: 0
+    //   })
 
+    const comments = res.paginatedResults
+    const { results, next, previous } = comments
+    console.log(comments)
     if (comments.length === 0) return res.status(500).json({ message: 'No comments found' })
 
     if (!currentUser) return res.status(500).json({ message: 'User not found' })
 
-    return res.status(200).json({ message: 'Messages Found', comments: [...comments].filter(comment => comment.writtenBy._id.toString() !== currentUser._id.toString()), pages })
+    return res.status(200).json({ message: 'Messages Found', previous, next, comments: results.filter(comment => comment.writtenBy._id.toString() !== currentUser._id.toString()) })
   } catch (err) {
     return res.status(500).json({ message: err.message })
   }
