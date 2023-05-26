@@ -1,7 +1,7 @@
 import { Schema, model } from 'mongoose'
 
 const responseSchema = new Schema({
-  writenBy: {
+  writtenBy: {
     type: Schema.Types.ObjectId,
     ref: 'User',
     required: true

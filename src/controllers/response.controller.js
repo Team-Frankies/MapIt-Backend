@@ -17,7 +17,7 @@ const getCommentResponses = async (req, res) => {
     const responses = await Response.find({})
       .limit(limits)
       .skip(skips)
-      .populate('writenBy', {
+      .populate('writtenBy', {
         email: 1,
         firstname: 1,
         lastname: 1
@@ -33,13 +33,13 @@ const getCommentResponses = async (req, res) => {
 
 const postCommentResponses = async (req, res) => {
   try {
-    const { writenBy, commentId, content } = req.body
+    const { writtenBy, commentId, content } = req.body
 
-    if (!writenBy || !commentId || !content) return res.status(400).json({ message: 'Missing fields' })
+    if (!writtenBy || !commentId || !content) return res.status(400).json({ message: 'Missing fields' })
 
     const currentComment = await Comment.findById(commentId)
     const commentResponse = new Response({
-      writenBy,
+      writtenBy,
       commentId,
       content
     })

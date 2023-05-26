@@ -1,25 +1,27 @@
 import { Router } from 'express'
 import {
   getCommentsByPlace,
-  getComment,
+  getCommentByUserIdAndPlaceId,
   getCommentsRate,
   postComment,
   updateComment,
   deleteComment
 } from '../controllers/comment.controller.js'
 import { verifyToken as auth } from '../middlewares/auth.middleware.js'
+import { paginatedResults } from '../middlewares/paginatedResults.js'
+import Comment from '../models/comment.model.js'
 
 const commentRouter = Router()
 
-commentRouter.get('/comments/:placeId', auth, getCommentsByPlace)
+commentRouter.get('/comments/:placeId/:userId', auth, paginatedResults(Comment), getCommentsByPlace)
 
-commentRouter.get('/comments/:id', auth, getComment)
+commentRouter.get('/comments/user/:userId/:placeId', auth, getCommentByUserIdAndPlaceId)
 
 commentRouter.get('/comments/rate/:placeId', auth, getCommentsRate)
 
 commentRouter.post('/comments', auth, postComment)
 
-commentRouter.put('/comments/:id', auth, updateComment)
+commentRouter.patch('/comments/:id', auth, updateComment)
 
 commentRouter.delete('/comments/:id', auth, deleteComment)
 
