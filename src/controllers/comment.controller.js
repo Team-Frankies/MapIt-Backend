@@ -3,22 +3,8 @@ import User from '../models/user.model.js'
 
 const getCommentsByPlace = async (req, res) => {
   try {
-    // const { page, limit } = req.query
     const { userId } = req.params
-    // const pages = parseInt(page) || 1
-    // const limits = parseInt(limit) || 4
-    // const skips = (pages - 1) * limits
     const currentUser = await User.findById(userId)
-    // const comments = await Comment.find({ placeId })
-    //   .limit(limits)
-    //   .skip(skips)
-    //   .populate('writtenBy', {
-    //     email: 1,
-    //     firstname: 1,
-    //     lastname: 1
-    //   }).populate('responses', {
-    //     commentId: 0
-    //   })
 
     const comments = res.paginatedResults
     const { results, next, previous } = comments
