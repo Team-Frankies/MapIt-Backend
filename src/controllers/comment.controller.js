@@ -55,6 +55,10 @@ const postComment = async (req, res) => {
       return res.status(400).json({ message: 'Missing fields' })
     }
 
+    if (!content && !stars) {
+      return res.status(400).json({ message: 'Must provided a content or stars rate to comments' })
+    }
+
     const currentUser = await User.findById(writtenBy)
 
     const comment = new Comment({
