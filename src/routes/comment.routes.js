@@ -13,7 +13,7 @@ import Comment from '../models/comment.model.js'
 
 const commentRouter = Router()
 
-commentRouter.get('/comments/:placeId/:userId', auth, paginatedResults(Comment), getCommentsByPlace)
+commentRouter.get('/comments/places/:placeId/:userId', auth, paginatedResults(Comment), getCommentsByPlace)
 
 commentRouter.get('/comments/user/:userId/:placeId', auth, getCommentByUserIdAndPlaceId)
 
