@@ -3,7 +3,6 @@ import express from 'express'
 import morgan from 'morgan'
 import dotenv from 'dotenv'
 import cors from 'cors'
-import http from 'http'
 import https from 'https'
 import fs from 'fs'
 
@@ -42,9 +41,9 @@ const options = {
 }
 
 // Create server
-http.createServer(app).listen(80, () => {
+/* http.createServer(app).listen(80, () => {
   console.log('Listening...')
-})
+}) */
 
 https.createServer(options, app)
   .listen(443, () => {
