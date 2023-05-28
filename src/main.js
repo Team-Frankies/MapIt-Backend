@@ -3,7 +3,6 @@ import express from 'express'
 import morgan from 'morgan'
 import dotenv from 'dotenv'
 import cors from 'cors'
-import http from 'http'
 import https from 'https'
 import fs from 'fs'
 
@@ -35,29 +34,20 @@ const allowCrossDomain = function (req, res, next) {
 }
 
 app.use(allowCrossDomain)
+
+// Connect to DB
 await mongodb.connectDB()
 
-// Listen both http & https ports
-const httpServer = http.createServer(app)
-const httpsServer = https.createServer({
+// Import certificates
+const options = {
   key: fs.readFileSync('/etc/letsencrypt/live/vps-3308536-x.dattaweb.com/privkey.pem'),
   cert: fs.readFileSync('/etc/letsencrypt/live/vps-3308536-x.dattaweb.com/fullchain.pem')
-}, app)
+}
 
-httpServer.listen(80, () => {
-  console.log('HTTP Server running on port 80')
-})
-
-httpsServer.listen(443, () => {
-  console.log('HTTPS Server running on port 443')
-})
-
-await mongodb.connectDB()
+// Start server
+https.createServer(options, (req, res) => {
+  res.status(200).json({ message: 'Server is running' })
+}).listen(port)
 
 // Routes
 apiRouter(app)
-
-// Start Server
-app.listen(port, () => {
-  console.log(`Server on port ${port}`)
-})
