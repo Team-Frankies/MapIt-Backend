@@ -21,7 +21,7 @@ export const getPlaceId = async (req, res, next) => {
         longName: data.result.address_components || null,
         name: data.result.name || null,
         formattedPhoneNumber: data.result.formatted_phone_number || null,
-        weekday: data.result?.opening_hours.weekday_text || 'Opening hours not available',
+        weekday: data.result?.opening_hours?.weekday_text || null,
         wheelchairAccesibleEntrance: data.result.wheelchair_accessible_entrance || null,
         photos: await urlPhotos(data.result.photos)
       }
