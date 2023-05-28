@@ -3,6 +3,7 @@ import express from 'express'
 import morgan from 'morgan'
 import dotenv from 'dotenv'
 import cors from 'cors'
+import http from 'http'
 import https from 'https'
 import fs from 'fs'
 
@@ -10,12 +11,14 @@ import fs from 'fs'
 import apiRouter from './api.routes.js'
 
 import * as mongodb from './db.js'
-import { hostname } from 'os'
 
 dotenv.config()
 
 // Initialization
 const app = express()
+
+// Static files
+app.use(express.static('public'))
 
 // Settings
 const port = process.env.SERVER_PORT || 3000
@@ -27,14 +30,6 @@ app.use(express.json())
 app.use(cors())
 
 app.options('*', cors())
-const allowCrossDomain = function (req, res, next) {
-  res.header('Access-Control-Allow-Origin', '*')
-  res.header('Access-Control-Allow-Methods', 'GET, PUT, POST, DELETE')
-  res.header('Access-Control-Allow-Headers', 'Content-Type')
-  next()
-}
-
-app.use(allowCrossDomain)
 
 // Connect to DB
 await mongodb.connectDB()
@@ -47,11 +42,14 @@ const options = {
 }
 
 // Create server
-const httpServer = https.createServer(options, app)
+http.createServer(app).listen(80, () => {
+  console.log('Listening...')
+})
+
+https.createServer(options, app)
+  .listen(443, () => {
+    console.log(`Server listening on port ${port}`)
+  })
 
 // Routes
 apiRouter(app)
-
-// Start Server
-httpServer.listen(port, hostname)
-console.log(`Server running on port ${port}`)
