@@ -8,12 +8,11 @@ const getCommentsByPlace = async (req, res) => {
 
     const comments = res.paginatedResults
     const { results, next, previous } = comments
-    console.log(comments)
     if (comments.length === 0) return res.status(500).json({ message: 'No comments found' })
 
     if (!currentUser) return res.status(500).json({ message: 'User not found' })
 
-    return res.status(200).json({ message: 'Messages Found', previous, next, comments: results.filter(comment => comment.writtenBy._id.toString() !== currentUser._id.toString()) })
+    return res.status(200).json({ message: 'Messages Found', previous, next, comments: results })
   } catch (err) {
     return res.status(500).json({ message: err.message })
   }
@@ -72,17 +71,18 @@ const updateComment = async (req, res) => {
     const { id } = req.params
     const { content, stars } = req.body
 
-    if (content) {
-      const updatedComment = await Comment.findByIdAndUpdate({ _id: id }, { content }, { new: true })
-      if (!updatedComment) return res.status(404).json({ message: 'Comment not found' })
-
-      return res.json({ message: 'Comment content Updated', comment: updatedComment })
-    } else if (stars) {
-      const updatedComment = await Comment.findByIdAndUpdate({ _id: id }, { stars }, { new: true })
-      if (!updatedComment) return res.status(404).json({ message: 'Comment not found' })
-
-      return res.json({ message: 'Comment rating Updated', comment: updatedComment })
+    if (!content && !stars) {
+      return res.status(500).json({ message: 'Must provided a content or stars rate to comments' })
     }
+
+    if (stars > 5 || stars < 0) {
+      return res.status(500).json({ message: 'Stars rate must be between 0 and 5' })
+    }
+
+    const updatedComment = await Comment.findByIdAndUpdate({ _id: id }, { content, stars }, { new: true })
+    if (!updatedComment) return res.status(500).json({ message: 'Data not updated' })
+
+    return res.status(200).json({ message: 'Comment updated', updatedComment })
   } catch (err) {
     return res.status(500).json({ message: err.message })
   }
