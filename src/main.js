@@ -45,9 +45,8 @@ const options = {
 }
 
 //
-https.createServer(options, (req, res) => {
-  res.writeHead(200)
-  res.end('hello world\n')
+https.createServer(options, (req, res, next) => {
+  next()
 }).listen(port, () => {
   console.log(`Server on port ${port}`)
 })
