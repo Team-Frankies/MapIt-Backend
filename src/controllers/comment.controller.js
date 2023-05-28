@@ -73,14 +73,17 @@ const updateComment = async (req, res) => {
 
     if (content) {
       const updatedComment = await Comment.findByIdAndUpdate({ _id: id }, { content }, { new: true })
-      if (!updatedComment) return res.status(404).json({ message: 'Comment not found' })
+      if (!updatedComment) return res.status(500).json({ message: 'Comment not found' })
 
       return res.json({ message: 'Comment content Updated', comment: updatedComment })
     } else if (stars) {
       const updatedComment = await Comment.findByIdAndUpdate({ _id: id }, { stars }, { new: true })
-      if (!updatedComment) return res.status(404).json({ message: 'Comment not found' })
+      if (!updatedComment) return res.status(500).json({ message: 'Rate not found' })
 
       return res.json({ message: 'Comment rating Updated', comment: updatedComment })
+    } else if (content && stars) {
+      const updatedComment = await Comment.findByIdAndUpdate({ _id: id }, { content, stars }, { new: true })
+      if (!updatedComment) return res.status(500).json({ message: 'Data not updated' })
     }
   } catch (err) {
     return res.status(500).json({ message: err.message })
