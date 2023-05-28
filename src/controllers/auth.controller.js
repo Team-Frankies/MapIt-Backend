@@ -25,7 +25,7 @@ export async function signIn (req, res) {
 export async function signOut (req, res) {
   try {
     await userService.signOut(req, res)
-    return res.status(HttpStatus.OK).json({ message: 'Sesión cerrada' })
+    return res.status(HttpStatus.OK).json({ message: 'Session close' })
   } catch (error) {
     return res.status(HttpStatus.BAD_REQUEST).send()
   }

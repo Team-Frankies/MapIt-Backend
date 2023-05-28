@@ -8,12 +8,11 @@ const getCommentsByPlace = async (req, res) => {
 
     const comments = res.paginatedResults
     const { results, next, previous } = comments
-    console.log(comments)
     if (comments.length === 0) return res.status(500).json({ message: 'No comments found' })
 
     if (!currentUser) return res.status(500).json({ message: 'User not found' })
 
-    return res.status(200).json({ message: 'Messages Found', previous, next, comments: results.filter(comment => comment.writtenBy._id.toString() !== currentUser._id.toString()) })
+    return res.status(200).json({ message: 'Messages Found', previous, next, comments: results })
   } catch (err) {
     return res.status(500).json({ message: err.message })
   }
