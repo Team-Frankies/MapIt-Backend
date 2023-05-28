@@ -46,10 +46,11 @@ const options = {
 
 //
 https.createServer(options, (req, res) => {
-  console.log('HTTPS server listening on port ' + port)
   res.writeHead(200)
-  res.end()
-}).listen(port)
+  res.end('hello world\n')
+}).listen(port, () => {
+  console.log(`Server on port ${port}`)
+})
 
 // Routes
 apiRouter(app)
