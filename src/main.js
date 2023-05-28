@@ -47,6 +47,7 @@ const options = {
 //
 https.createServer(options, (req, res) => {
   console.log('HTTPS server listening on port ' + port)
+  res.writeHead(200)
 }).listen(port)
 
 // Routes
