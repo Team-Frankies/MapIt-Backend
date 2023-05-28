@@ -71,20 +71,18 @@ const updateComment = async (req, res) => {
     const { id } = req.params
     const { content, stars } = req.body
 
-    if (content) {
-      const updatedComment = await Comment.findByIdAndUpdate({ _id: id }, { content }, { new: true })
-      if (!updatedComment) return res.status(500).json({ message: 'Comment not found' })
-
-      return res.json({ message: 'Comment content Updated', comment: updatedComment })
-    } else if (stars) {
-      const updatedComment = await Comment.findByIdAndUpdate({ _id: id }, { stars }, { new: true })
-      if (!updatedComment) return res.status(500).json({ message: 'Rate not found' })
-
-      return res.json({ message: 'Comment rating Updated', comment: updatedComment })
-    } else if (content && stars) {
-      const updatedComment = await Comment.findByIdAndUpdate({ _id: id }, { content, stars }, { new: true })
-      if (!updatedComment) return res.status(500).json({ message: 'Data not updated' })
+    if (!content && !stars) {
+      return res.status(500).json({ message: 'Must provided a content or stars rate to comments' })
     }
+
+    if (stars > 5 || stars < 0) {
+      return res.status(500).json({ message: 'Stars rate must be between 0 and 5' })
+    }
+
+    const updatedComment = await Comment.findByIdAndUpdate({ _id: id }, { content, stars }, { new: true })
+    if (!updatedComment) return res.status(500).json({ message: 'Data not updated' })
+
+    return res.status(200).json({ message: 'Comment updated', updatedComment })
   } catch (err) {
     return res.status(500).json({ message: err.message })
   }
