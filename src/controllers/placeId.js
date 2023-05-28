@@ -21,13 +21,12 @@ export const getPlaceId = async (req, res, next) => {
         longName: data.result.address_components || null,
         name: data.result.name || null,
         formattedPhoneNumber: data.result.formatted_phone_number || null,
-        weekday: data.result.opening_hours.weekday_text || null,
+        weekday: data.result?.opening_hours.weekday_text || 'Opening hours not available',
         wheelchairAccesibleEntrance: data.result.wheelchair_accessible_entrance || null,
         photos: await urlPhotos(data.result.photos)
       }
     })
   } catch (err) {
-    console.error(err)
-    res.status(500).json({ error: 'Error' })
+    res.status(500).json({ message: err.message })
   }
 }
