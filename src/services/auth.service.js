@@ -75,12 +75,12 @@ export async function updateUser (req, res) {
   const { firstname, lastname, password, newpassword } = req.body
 
   if (!firstname || !lastname || !password || !newpassword) {
-    return res.status(HttpStatus.FORBIDDEN).send('No se puede actualizar un usuario vacio')
+    return res.status(HttpStatus.FORBIDDEN).send('You cannot update user with empty fields')
   }
   const userDB = await User.findById(id)
   const passwordMatch = await userDB.comparePassword(password)
   if (!passwordMatch) {
-    return res.status(HttpStatus.FORBIDDEN).send('La contraseña no coincide')
+    return res.status(HttpStatus.FORBIDDEN).send('Passwords do not match')
   }
   const hashPassword = await hash(newpassword)
   const userDetail = { firstname, lastname, password: hashPassword }

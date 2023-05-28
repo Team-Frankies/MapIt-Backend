@@ -55,7 +55,6 @@ UserSchema.pre('save', async function (next) {
 })
 
 UserSchema.methods.comparePassword = async function (password) {
-  console.log({ hash: this.password, password })
   return await verify(this.password, password)
 }
 
