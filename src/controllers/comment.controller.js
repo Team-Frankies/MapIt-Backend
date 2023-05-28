@@ -25,8 +25,8 @@ const getCommentByUserIdAndPlaceId = async (req, res) => {
     const currentUser = await User.findById(userId)
     const comment = await Comment.find({ writtenBy: userId, placeId }).populate('responses', { writtenBy: 0 })
 
-    if (!currentUser) return res.status(404).json({ message: 'User not found' })
-    if (!comment || comment.length === 0) return res.status(404).json({ message: 'Comment not found' })
+    if (!currentUser) return res.status(500).json({ message: 'User not found' })
+    if (!comment || comment.length === 0) return res.status(500).json({ message: 'Comment not found' })
 
     return res.json({ message: 'Message Found', comments: comment })
   } catch (err) {
@@ -93,7 +93,7 @@ const deleteComment = async (req, res) => {
     const { id } = req.params
     const commentDeleted = await Comment.findByIdAndDelete(id)
 
-    if (!commentDeleted) return res.status(404).json({ message: 'Comment not found' })
+    if (!commentDeleted) return res.status(500).json({ message: 'Comment not found' })
 
     return res.status(202).json({ message: 'Comment Deleted', deletedComment: commentDeleted })
   } catch (err) {
