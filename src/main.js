@@ -10,6 +10,7 @@ import fs from 'fs'
 import apiRouter from './api.routes.js'
 
 import * as mongodb from './db.js'
+import { hostname } from 'os'
 
 dotenv.config()
 
@@ -41,18 +42,16 @@ await mongodb.connectDB()
 // Import certificates
 const options = {
   key: fs.readFileSync('/etc/letsencrypt/live/vps-3308536-x.dattaweb.com/privkey.pem'),
-  cert: fs.readFileSync('/etc/letsencrypt/live/vps-3308536-x.dattaweb.com/fullchain.pem')
+  cert: fs.readFileSync('/etc/letsencrypt/live/vps-3308536-x.dattaweb.com/fullchain.pem'),
+  ca: fs.readFileSync('/etc/letsencrypt/live/vps-3308536-x.dattaweb.com/chain.pem')
 }
 
-//
-https.createServer(options, (req, res, next) => {
-  next()
-}).listen(port)
+// Create server
+const httpServer = https.createServer(options, app)
 
 // Routes
 apiRouter(app)
 
 // Start Server
-app.listen(port, () => {
-  console.log(`Server on port ${port}`)
-})
+httpServer.listen(port, hostname)
+console.log(`Server running on port ${port}`)
