@@ -47,9 +47,12 @@ const options = {
 //
 https.createServer(options, (req, res, next) => {
   next()
-}).listen(port, () => {
-  console.log(`Server on port ${port}`)
-})
+}).listen(port)
 
 // Routes
 apiRouter(app)
+
+// Start Server
+app.listen(port, () => {
+  console.log(`Server on port ${port}`)
+})
