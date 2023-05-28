@@ -44,9 +44,9 @@ const options = {
   cert: fs.readFileSync('/etc/letsencrypt/live/vps-3308536-x.dattaweb.com/fullchain.pem')
 }
 
-// Start server
+//
 https.createServer(options, (req, res) => {
-  res.status(200).json({ message: 'Server is running' })
+  console.log('HTTPS server listening on port ' + port)
 }).listen(port)
 
 // Routes
