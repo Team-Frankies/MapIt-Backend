@@ -106,7 +106,7 @@ const getCommentsRate = async (req, res) => {
     const { placeId } = req.params
     const comments = await Comment.find({ placeId })
 
-    if (!comments || comments.length === 0) return res.status(404).json({ message: 'Comments not found' })
+    if (!comments || comments.length === 0) return res.status(500).json({ message: 'Comments not found' })
 
     const commentsRate = (comments.reduce((acc, comment) => acc + comment.stars, 0) / comments.length).toFixed(1)
 
