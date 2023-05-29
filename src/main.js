@@ -25,6 +25,8 @@ app.use(cors())
 
 await mongodb.connectDB()
 
+app.use(('/'), express.static('public', { redirect: false }))
+
 // Routes
 apiRouter(app)
 
