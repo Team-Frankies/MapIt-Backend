@@ -1,0 +1,34 @@
+version: "3.9"
+services:
+  helpserver:
+    container_name: server
+    restart: always
+    build: .
+    ports:
+      - "3000:3000"
+      - "9229:9229" # debug
+    environment:
+      - DOCKER_DB_URI=${DOCKER_DB_URI}
+      - SECRET_KEY=${SECRET_KEY}
+    links:
+      - helpmongo
+    volumes:
+      - .:/home/app
+      - /home/app/node_modules
+    networks:
+      - MONGO
+
+  helpmongo:
+    container_name: mongo
+    image: mongo
+    ports:
+      - "0.0.0.0:27017:27017"
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=${USER_MONGO}
+      - MONGO_INITDB_ROOT_PASSWORD=${PASS_MONGO}
+    networks:
+      - MONGO
+
+networks:
+  MONGO:
+    name: MONGO

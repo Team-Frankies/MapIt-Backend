@@ -1,26 +1,19 @@
 // Node Modules
-import express from 'express'
-const router = express.Router()
+import { Router } from 'express'
 
-import AuthService from '../service/auth.service.js'
-const auth_service = new AuthService()
+import * as authController from '../controllers/auth.controller.js'
+import * as authMiddleware from '../middlewares/auth.middleware.js'
+const router = Router()
 
-import verify_token from '../middlewares/auth.token.js'
+router.post('/sign-up', authController.createUser)
+router.post('/sign-in', authController.signIn)
+router.post('/sign-out', authController.signOut)
+router
+  .get('/user/:id', authMiddleware.verifyToken, authController.userId)
+  .put('/user/:id', authMiddleware.verifyToken, authController.updateUser)
 
-router.post('/sign-up', async (req, res) => {
-    const account = req.body
-    const get_token = await auth_service.Get_Token(account)
-    res.status(201).json(get_token)
-})
-
-router.post('/verify-token', verify_token, async (req, res) => {
-    const token = req.token
-    const verify_token = await auth_service.Verify_Token(token)
-    if (verify_token.status === false){
-        res.status(403).json(verify_token)
-    } else {
-        res.status(200).json(verify_token)
-    }
+router.get('/test-protected', authMiddleware.verifyToken, (req, res) => {
+  return res.send('Has access to protected route')
 })
 
 export default router
